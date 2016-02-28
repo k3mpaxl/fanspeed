@@ -1,0 +1,35 @@
+#! /bin/sh
+#
+case "$1" in
+start)
+echo "Starting " $0
+
+cd /etc/fanspeed/
+./fanslow.sh >> /var/log/fanspeed &>> /dev/null &
+
+;;
+stop)
+echo "Stopping " $0
+killall fanslow.sh
+/etc/fanspeed/probook_ec.pl FANRST
+#
+# Do something to stop the target platform here
+#
+;;
+restart)
+echo "Restarting " $0
+$0 stop
+$0 start
+;;
+status)
+echo  "Status Not Implemented"
+#
+# Do something to process status checks here.
+#
+;;
+*)
+echo "Usage: /etc/init.d/$0 {start|stop}"
+exit 1
+;;
+esac
+exit 0
